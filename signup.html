@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GMD Sign Up</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.3/+esm"></script>
+
+  <style>
+   * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body, html {
+      height: 100%;
+      font-family: 'Orbitron', sans-serif;
+      overflow: hidden;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .light-mode {
+      background-color: #f4f7f6;
+      color: #333;
+    }
+
+    .dark-mode {
+      background-color: #1e293b;
+      color: #e2e8f0;
+    }
+
+    video.bg-video {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -2;
+      filter: brightness(0.4) hue-rotate(90deg);
+    }
+
+    .light-mode .bg-video {
+      filter: brightness(0.4) hue-rotate(90deg);
+    }
+
+    .dark-mode .bg-video {
+      filter: brightness(0.2) grayscale(20%);
+    }
+
+    .overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 255, 128, 0.05);
+      backdrop-filter: blur(6px);
+      z-index: -1;
+      transition: background 0.3s ease, backdrop-filter 0.3s ease;
+    }
+
+    .light-mode .overlay {
+      background: rgba(0, 255, 128, 0.05);
+      backdrop-filter: blur(6px);
+    }
+
+    .dark-mode .overlay {
+      background: rgba(30, 41, 59, 0.4);
+      backdrop-filter: blur(8px);
+    }
+
+    .signup-box {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(255, 255, 255, 0.955);
+      padding: 2rem;
+      border-radius: 15px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 0 30px rgba(0, 255, 128, 0.5);
+      color: rgba(0, 0, 0, 0.7);
+      max-width: 400px;
+      width: 90%;
+      transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    }
+
+    .dark-mode .signup-box {
+      background: rgba(30, 30, 30, 0.8);
+      color: rgba(255, 255, 255, 0.8);
+      border-color: rgba(50, 50, 50, 0.5);
+      box-shadow: 0 0 30px rgba(0, 150, 75, 0.7);
+    }
+
+    .signup-box h2 {
+      color: #00ff88;
+      text-align: center;
+      margin-bottom: 1rem;
+      transition: color 0.3s ease;
+    }
+
+    .dark-mode .signup-box h2 {
+      color: #00cc99;
+    }
+
+    .signup-box input {
+      width: 100%;
+      padding: 0.75rem;
+      margin: 0.5rem 0;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid #00ff88;
+      border-radius: 8px;
+      color: black;
+      transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+    }
+
+    .dark-mode .signup-box input {
+      background: rgba(50, 50, 50, 0.3);
+      border-color: #00cc99;
+      color: #f0f0f0;
+    }
+
+    .signup-box input::placeholder {
+      color: green;
+      transition: color 0.3s ease;
+    }
+
+    .dark-mode .signup-box input::placeholder {
+      color: #b3b3b3;
+    }
+
+    .signup-box button {
+      width: 100%;
+      padding: 0.75rem;
+      margin-top: 1rem;
+      background: linear-gradient(to right, #00ff88, #00cc99);
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      color: whitesmoke;
+      cursor: pointer;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    .dark-mode .signup-box button {
+      background: linear-gradient(to right, #00cc99, #00997a);
+      color: #e0e0e0;
+    }
+
+    .google-btn {
+      background: white;
+      color: black;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 1rem;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      padding: 0.75rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+    }
+
+    .dark-mode .google-btn {
+      background: #333;
+      color: #f0f0f0;
+      border-color: #555;
+    }
+
+    .footer-text {
+      text-align: center;
+      font-size: 0.8rem;
+      margin-top: 1rem;
+      color: green;
+      transition: color 0.3s ease;
+    }
+
+    .dark-mode .footer-text {
+      color: #80cbc4;
+    }
+
+    .footer-text a {
+      color: black;
+      text-decoration: underline;
+      text-decoration-color: blue;
+      transition: color 0.3s ease;
+    }
+
+    .dark-mode .footer-text a {
+      color: #a7ffeb;
+    }
+
+    video {
+     position: fixed;
+     top: 0; left: 0;
+     width: 100%;
+     height: 100%;
+     object-fit: cover;
+     z-index: -1;
+     filter: brightness(0.4) hue-rotate(90deg);
+    }
+
+    .toggle-container {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      z-index: 10;
+    }
+
+    .toggle-checkbox {
+      position: absolute;
+      left: -9999px;
+    }
+
+    .toggle-label {
+      display: inline-block;
+      width: 60px;
+      height: 30px;
+      background-color: #ccc;
+      border-radius: 15px;
+      position: relative;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .toggle-label::after {
+      content: '';
+      position: absolute;
+      left: 2px;
+      top: 2px;
+      width: 26px;
+      height: 26px;
+      background-color: white;
+      border-radius: 50%;
+      transition: transform 0.3s ease;
+    }
+
+    .toggle-checkbox:checked + .toggle-label {
+      background-color: #00ff88;
+    }
+
+    .toggle-checkbox:checked + .toggle-label::after {
+      transform: translateX(30px);
+    }
+    .error-message {
+      color: red;
+      font-size: 0.8rem;
+      margin-top: 0.5rem;
+    }
+    #logo {
+      display: block;
+      width: 100px;
+      height: 100px;
+      margin: 0 auto 1rem auto;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #00ff88;
+      box-shadow: 0 0 2px rgba(0, 255, 128, 0.6);
+   }
+  </style>
+</head>
+<body class="light-mode">
+
+  <div class="toggle-container">
+    <input type="checkbox" id="darkModeToggle" class="toggle-checkbox">
+    <label for="darkModeToggle" class="toggle-label"></label>
+  </div>
+
+  <video class="bg-video" autoplay muted loop playsinline>
+    <source src="IMAGES\background.mp4" type="video/mp4" />
+    Your browser does not support the video tag.
+  </video>
+  <div class="overlay"></div>
+
+  <div class="signup-box">
+    <img src="logo.png" id="logo" />
+    <h2>G M D</h2>
+    <input type="email" id="email" placeholder="Email" />
+    <input type="password" id="password" placeholder="Password" />
+    <input type="password" id="confirmPassword" placeholder="Confirm Password" />
+    <button onclick="signUpWithEmailPassword()">Sign Up</button>
+    <p id="emailPasswordError" class="error-message"></p>
+
+    <button class="google-btn" onclick="signInWithGoogle()">
+      <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" height="22" alt="Google icon" />
+      Sign Up with Google
+    </button>
+    <p id="googleSignInError" class="error-message"></p>
+
+    <div class="footer-text">
+      Already have an account? <a href="loginform.html">Log in</a><br>
+      <br>
+      By signing up, you agree to our <a href="#">Terms</a> & <a href="#">Privacy</a>.
+    </div>
+  </div>
+
+<script type="module">
+  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+  const supabase = createClient(
+    'https://humgckbdthdzkbbvqrbm.supabase.co',
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh1bWdja2JkdGhkemtiYnZxcmJtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDc0OTk0NTcsImV4cCI6MjA2MzA3NTQ1N30.uaSNJAB1OEZk9ZAW7i_wA3QJBkDLuyrvXO3yHeKecjI'
+  );
+
+  const emailInput = document.getElementById('email');
+  const passwordInput = document.getElementById('password');
+  const confirmPasswordInput = document.getElementById('confirmPassword');
+  const emailPasswordError = document.getElementById('emailPasswordError');
+  const googleSignInError = document.getElementById('googleSignInError');
+  const darkModeToggle = document.getElementById('darkModeToggle');
+  const body = document.body;
+
+  window.signUpWithEmailPassword = async function () {
+  const email = emailInput.value;
+  const password = passwordInput.value;
+  const confirmPassword = confirmPasswordInput.value;
+
+  if (password !== confirmPassword) {
+    emailPasswordError.textContent = "Your passwords don't match. Please try again.";
+    return;
+  }
+
+  const { data, error } = await supabase.auth.signUp({
+    email,
+    password,
+    options: {
+      emailRedirectTo: 'http://localhost:3000/dashboard.html'
+    }
+  });
+
+  if (error) {
+  emailPasswordError.textContent = error.message;
+} else {
+  emailPasswordError.style.color = 'green';
+  emailPasswordError.textContent = "A confirmation email has been sent. Please check your inbox and verify your email before logging in.";
+}
+  };
+
+  window.signInWithGoogle = async function () {
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: window.location.origin + '/dashboard.html'
+      }
+    });
+
+    if (error) {
+      googleSignInError.textContent = "An error occurred with Google sign-in. Please try again.";
+    }
+  };
+
+  function toggleDarkMode() {
+    body.classList.toggle('dark-mode');
+    body.classList.toggle('light-mode');
+
+    if (body.classList.contains('dark-mode')) {
+      localStorage.setItem('darkMode', 'enabled');
+    } else {
+      localStorage.setItem('darkMode', 'disabled');
+    }
+  }
+
+  if (localStorage.getItem('darkMode') === 'enabled') {
+    body.classList.add('dark-mode');
+    body.classList.remove('light-mode');
+    darkModeToggle.checked = true;
+  }
+
+  darkModeToggle.addEventListener('change', toggleDarkMode);
+  
+
+
+
+  async function fetchUserData() {
+  const {
+    data: { user },
+    error: authError
+  } = await supabase.auth.getUser();
+
+  if (authError || !user) {
+    console.error('Not authenticated');
+    return;
+  }
+
+  const { data, error } = await supabase
+    .from('users')
+    .select('bonus, user_id')
+    .eq('id', user.id)
+    .single();
+
+  if (error) {
+    console.error('Error fetching user data:', error.message);
+    return;
+  }
+
+  let userId = data.user_id;
+
+  // If user_id does not exist, generate and update it
+  if (!userId) {
+    userId = 'GMD' + Math.floor(100000 + Math.random() * 900000); // GMD123456
+
+    const { error: updateError } = await supabase
+      .from('users')
+      .update({ user_id: userId })
+      .eq('id', user.id);
+
+    if (updateError) {
+      console.error('Failed to update user ID:', updateError.message);
+      return;
+    }
+  }
+
+  balanceEl.textContent = `${data.bonus.toFixed(2)} USDT`;
+  userIdSpan.textContent = userId;
+
+  userIdSpan.onclick = () => {
+    navigator.clipboard.writeText(userId);
+    userIdSpan.textContent = `Copied! ${userId}`;
+    setTimeout(() => {
+      userIdSpan.textContent = userId;
+    }, 1500);
+  };
+}
+
+</script>
+
+</body>
+</html>

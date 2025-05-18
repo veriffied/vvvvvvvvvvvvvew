@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GMD Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    * {
+      margin: 0; padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f9fafa;
+      color: #1a1a1a;
+    }
+
+    .layout {
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .sidebar {
+      width: 240px;
+      background-color: #016948;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      padding: 2rem 1rem;
+      justify-content: space-between;
+    }
+
+    .sidebar a:hover,
+    .sidebar a.active {
+      background-color: #019d70;
+    }
+
+    .main {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1.5rem 2rem;
+    }
+
+    .slider-container {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    height: 250px;
+    border-radius: 1rem;
+    overflow: hidden;
+    margin-bottom: 2rem;
+    margin-right: 6rem
+  }
+
+  @media (min-width: 768px) {
+    .slider-container {
+      height: 250px;
+    }
+  }
+
+  .slider {
+    display: flex;
+    transition: transform 0.6s ease-in-out;
+    width: 100%;
+    height: 100%;
+  }
+
+  .slider img {
+    width: 100%;
+    flex-shrink: 0;
+    object-fit: cover;
+    height: 100%;
+    border-radius: 1rem;
+  }
+
+    .balance-amount {
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: #016948;
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div>
+        <h2 class="text-xl font-bold mb-6">GMD FINANCE</h2>
+        <a href="#" class="active block py-2 px-3 rounded">HOME</a>
+        <a href="sub.html" class="block py-2 px-3 rounded">SUBSCRIPTION</a>
+        <a href="wallet.html" class="block py-2 px-3 rounded">WALLETS</a>
+        <a href="task.html" class="block py-2 px-3 rounded">JOB</a>
+        <a href="analytics.html" class="block py-2 px-3 rounded">ANALYTICS</a>
+        <a href="settings.html" class="block py-2 px-3 rounded">SETTINGS</a>
+        <a href="help.html" class="block py-2 px-3 rounded">HELP</a>
+      </div>
+      <div class="footer">
+        <button class="bg-red-500 text-white px-4 py-2 rounded">
+          <a href="sub.html">Logout</a>
+        </button>    
+      </div>
+    </aside>
+
+    <!-- Main content -->
+    <main class="main">
+      <!-- Topbar -->
+      <div class="topbar bg-white shadow-md rounded-xl px-6 py-4 mb-6 flex justify-between items-center">
+        <div class="flex flex-col">
+          <h1 class="text-2xl font-bold text-green-700">Level-Based Task</h1>
+          <span class="text-sm text-gray-500">Earn more as you level up!</span>
+        </div>
+        <div class="flex items-center gap-4">
+          <div id="user-id-label" class="text-sm font-semibold text-green-800">
+            User ID: <span id="user-id" class="cursor-pointer border-b border-dotted border-green-700" title="Click to copy">Loading...</span>
+          </div>
+          <nav>
+            <a href="#" class="text-green-800 font-semibold hover:underline">Dashboard</a>
+            <a href="#" class="text-green-800 font-semibold hover:underline ml-4">Support</a>
+          </nav>
+        </div>
+      </div>
+
+      <!-- Image Slider -->
+      <div class="slider-container">
+        <div id="slider" class="slider">
+          <img src="IMAGES/certificate.png"alt="img." />
+          <img src="IMAGES/robot.png"alt="img.." />
+          <img src="IMAGES/robot2.png" alt="img..." />
+        </div>
+      </div>
+
+      <!-- Balance Section -->
+      <div class="balance-section mb-12">
+        <div class="text-sm text-gray-600">Balance</div>
+        <div class="balance-amount" id="balance">0.00 USDT</div>
+        <div class="flex gap-4 mt-4">
+          <button class="bg-green-700 text-white px-6 py-2 rounded hover:bg-green-800">Deposit USDT</button>
+          <button class="bg-green-700 text-white px-6 py-2 rounded hover:bg-green-800">Withdraw USDT</button>
+        </div>
+      </div>
+
+      <!-- Membership Table Section -->
+      <div class="ml-1 mt-8 w-full max-w-5xl bg-white shadow-md rounded-2xl overflow-hidden border border-gray-200">
+        <div class="bg-green-800 text-white py-4 px-6 flex justify-between items-center rounded-t-2xl">
+          <h2 class="text-2xl font-semibold">GMD</h2>
+          <div class="bg-black rounded-full w-12 h-12 flex items-center justify-center border-4 border-green-400 text-green-300 text-lg font-semibold">
+            GMD
+          </div>
+        </div>
+
+        <div class="p-6">
+          <h1 class="text-lg font-bold text-green-700 mb-4">MEMBERSHIP SUBSCRIPTION</h1>
+          <div class="overflow-x-auto">
+            <table class="min-w-full text-left border-collapse rounded-xl overflow-hidden">
+              <thead class="bg-green-600 text-white">
+                <tr>
+                  <th class="px-4 py-2">MEMBERSHIP LEVEL</th>
+                  <th class="px-4 py-2">SUBSCRIPTION AMOUNT (USDT)</th>
+                  <th class="px-4 py-2">DAILY VIEWING TASKS</th>
+                  <th class="px-4 py-2">DAILY EARNINGS (USDT)</th>
+                  <th class="px-4 py-2">TOTAL EARNINGS (USDT)</th>
+                  <th class="px-4 py-2">VALIDITY PERIOD (DAYS)</th>
+                </tr>
+              </thead>
+              <tbody class="text-gray-800">
+                <tr class="bg-white"><td class="px-4 py-2">AMAZON PRIME</td><td class="px-4 py-2">70</td><td class="px-4 py-2">2</td><td class="px-4 py-2">2.5</td><td class="px-4 py-2">200</td><td class="px-4 py-2">80</td></tr>
+                <tr class="bg-green-50"><td class="px-4 py-2">NETFLIX</td><td class="px-4 py-2">210</td><td class="px-4 py-2">4</td><td class="px-4 py-2">8.5</td><td class="px-4 py-2">680</td><td class="px-4 py-2">80</td></tr>
+                <tr class="bg-white"><td class="px-4 py-2">HBO MAX</td><td class="px-4 py-2">580</td><td class="px-4 py-2">6</td><td class="px-4 py-2">22</td><td class="px-4 py-2">1760</td><td class="px-4 py-2">80</td></tr>
+                <tr class="bg-green-50"><td class="px-4 py-2">PARAMOUNT</td><td class="px-4 py-2">950</td><td class="px-4 py-2">8</td><td class="px-4 py-2">36</td><td class="px-4 py-2">2880</td><td class="px-4 py-2">80</td></tr>
+                <tr class="bg-white"><td class="px-4 py-2">WALT DISNEY</td><td class="px-4 py-2">2500</td><td class="px-4 py-2">12</td><td class="px-4 py-2">96</td><td class="px-4 py-2">7860</td><td class="px-4 py-2">80</td></tr>
+                <tr class="bg-green-50"><td class="px-4 py-2">SONY</td><td class="px-4 py-2">5000</td><td class="px-4 py-2">14</td><td class="px-4 py-2">192</td><td class="px-4 py-2">15428</td><td class="px-4 py-2">80</td></tr>
+                <tr class="bg-white"><td class="px-4 py-2">UNIVERSAL PICTURES</td><td class="px-4 py-2">10000</td><td class="px-4 py-2">16</td><td class="px-4 py-2">385</td><td class="px-4 py-2">30800</td><td class="px-4 py-2">80</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <!-- About GMD Section -->
+<section class="mt-12 bg-#90ee90 p-6 rounded-2xl shadow border border-gray-200">
+  <h1 class="text-align: right; text-green-1000 mb-12">ABOUT US:</h1>
+  <h2 class="text-2xl font-bold text-green-800 mb-4">Financial Services, Security & Funding Source</h2>
+  <p class="text-gray-700 leading-relaxed">
+    Green Media Finance (GMD) operates as a mutually beneficial digital ecosystem where users earn rewards by engaging with entertainment-based content such as movies, advertisements, and media reviews. This platform leverages user interaction to generate monetized value while providing financial benefits to its participants.
+  </p>
+  <p class="text-gray-700 leading-relaxed mt-4">
+    GMD bridges global and African entertainment industries—creating an inclusive hub for cultural exchange, creativity, and commercial synergy. Through strategic partnerships, media analysis, and ad engagement, users and collaborators are empowered to generate income while promoting transcontinental content exposure.
+  </p>
+  <p class="text-gray-700 leading-relaxed mt-4">
+    Our commitment to secure and transparent financial interactions ensures that all transactions, earnings, and tasks are handled with integrity, using blockchain-backed assets like USDT to support seamless, international payouts.
+  </p>
+</section>
+
+    </main>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      let currentIndex = 0;
+      const slider = document.getElementById('slider');
+      const slides = slider.children;
+  
+      function showNextSlide() {
+        currentIndex = (currentIndex + 1) % slides.length;
+        slider.style.transform = `translateX(-${currentIndex * 100}%)`;
+      }
+  
+      setInterval(showNextSlide, 4000); // every 4 seconds
+    });
+  </script>
+  <script>
+    // You can later dynamically update the balance here if needed
+    
+  </script>
+  <script type="module">
+  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+const supabase = createClient(
+  'https://humgckbdthdzkbbvqrbm.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh1bWdja2JkdGhkemtiYnZxcmJtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDc0OTk0NTcsImV4cCI6MjA2MzA3NTQ1N30.uaSNJAB1OEZk9ZAW7i_wA3QJBkDLuyrvXO3yHeKecjI'
+  );
+  
+  supabase.auth.getSession().then(({ data: { session }, error }) => {
+  if (session) {
+    console.log("User logged in:", session.user);
+    // Continue to load dashboard info
+  } else {
+    console.log("No session found or user not confirmed");
+  }
+});
+
+const balanceEl = document.getElementById('balance');
+const userIdSpan = document.getElementById('user-id');
+
+async function fetchUserData() {
+  const {
+    data: { user },
+    error: authError
+  } = await supabase.auth.getUser();
+
+  if (authError || !user) {
+    console.error('Not authenticated');
+    return;
+  }
+
+  const { data, error } = await supabase
+    .from('users')
+    .select('bonus, user_id')
+    .eq('id', user.id)
+    .single();
+
+  if (error) {
+    console.error('Error fetching user data:', error.message);
+    return;
+  }
+
+  balanceEl.textContent = `${data.bonus.toFixed(2)} USDT`;
+  userIdSpan.textContent = data.user_id;
+
+  userIdSpan.onclick = () => {
+    navigator.clipboard.writeText(data.user_id);
+    userIdSpan.textContent = `Copied! ${data.user_id}`;
+    setTimeout(() => {
+      userIdSpan.textContent = data.user_id;
+    }, 1500);
+  };
+}
+
+fetchUserData();
+
+</script>
+</body>
+</html>

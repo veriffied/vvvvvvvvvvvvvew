@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Green Media Analytics</title>
+  <style>
+    :root {
+      --primary-color: #019d70;
+      --card-bg: rgba(189, 167, 167, 0.95);
+      --text-main: #333;
+      --text-muted: #666;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: 
+        linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.6)), 
+        url('https://wallpaperaccess.com/full/3047700.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: var(--text-main);
+      padding: 20px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+      color: #fff;
+    }
+
+    header h1 {
+      font-size: 36px;
+      color: #fff;
+    }
+
+    header p {
+      color: #ddd;
+    }
+
+    .analytics-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .card h2 {
+      font-size: 18px;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+
+    .card .value {
+      font-size: 28px;
+      font-weight: bold;
+      color: var(--primary-color);
+    }
+
+    @media (max-width: 600px) {
+      .card .value {
+        font-size: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>TEAM MEMBER</h1>
+    <p>Track engagement and member referrals in real-time</p>
+    <p  id="user-id-label">User ID:</p>
+  </header>
+
+  <div class="analytics-container">
+    <div class="card">
+      <h2>Total Invites</h2>
+      <div class="value">0</div>
+    </div>
+</body>
+</html>
